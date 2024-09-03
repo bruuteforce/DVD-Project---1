@@ -1,0 +1,26 @@
+*PMOS OFF Condition
+
+.INCLUDE 45nm_HP.pm
+
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM Ldiff=90n
+	
+Mn drain gate source body pmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
+Vd 	drain	0		0
+Vg 	gate	0		1.1
+Vs 	source	d1		0
+Vb 	body	d1		0
+Vdd     d1	0		0
+.TEMP 25
+.CONTROL
+let voltage=0
+let Vddbasic=1.1
+while voltage le Vddbasic
+  let voltage = voltage + 0.05
+  alter Vdd = voltage
+  dc TEMP 25 50 30
+  print abs(V(d1)) V(drain) V(gate) V(source) V(body) I(Vd) I(Vg) I(Vs) I(Vb)
+end
+.ENDC
+.END
