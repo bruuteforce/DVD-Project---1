@@ -44,3 +44,4 @@ print(df)
 print(lookup_table)
 # Export DataFrame to Excel
 df.to_excel('output.xlsx', index=False)
+df.to_csv('output.csv', index=False)
