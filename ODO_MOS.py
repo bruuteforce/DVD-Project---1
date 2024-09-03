@@ -7,6 +7,9 @@ def parse_file(filename):
             temp=""
             global lookup_table
             j=0
+            file_path = 'output.txt'
+            filew=open(file_path, 'a')
+            filew.write('abs(v(alim))     vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
             print('abs(v(alim))     vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
             for line in file:
                 line = line.strip()  # Remove leading/trailing whitespace
@@ -18,6 +21,7 @@ def parse_file(filename):
                     
                     if(variable == "abs(v(alim))"):
                         ##print(temp)
+                        filew.write(temp+'\n')
                         values_list = temp.split()
                         #print(values_list)
                         if(len(values_list)==len(columns)):
@@ -39,4 +43,4 @@ df = pd.DataFrame.from_dict(lookup_table,orient='index',columns=columns)
 print(df)
 print(lookup_table)
 # Export DataFrame to Excel
-df.to_excel('products.xlsx', index=False)
+df.to_excel('output.xlsx', index=False)
