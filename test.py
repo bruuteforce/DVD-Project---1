@@ -25,6 +25,7 @@ if not os.path.exists('E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp'):
 
 ##maybe do a for loop
 
+columns=['vdrain','vgate','vsource','vbody','idrain','igate','isource','ibody']
 ##NMOS OFF
 source_file = 'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\NMOS_off.ckt'
 for i in [1, 2, 3, 4, 6, 8]:
@@ -35,7 +36,7 @@ for i in [1, 2, 3, 4, 6, 8]:
     new_string2 = f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\NMOS_OFF{i}.txt'
     copy_and_edit_file(source_file, destination_file, string_to_replace1, new_string1, string_to_replace2, new_string2)
     os.system(f'ngspice_con -b DVD_MOS_files\\temp\\NMOS_off{i}.ckt')
-    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\NMOS_OFF{i}.txt')
+    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\NMOS_OFF{i}.txt',"v(drain)",columns)
     ##print("File copied and string replaced successfully.")
 
 ##NMOS ON
@@ -48,7 +49,7 @@ for i in [1, 2, 3, 4, 6, 8]:
     new_string2 = f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\NMOS_ON{i}.txt'
     copy_and_edit_file(source_file, destination_file, string_to_replace1, new_string1, string_to_replace2, new_string2)
     os.system(f'ngspice_con -b DVD_MOS_files\\temp\\NMOS_on{i}.ckt')
-    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\NMOS_ON{i}.txt')
+    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\NMOS_ON{i}.txt',"v(drain)",columns)
 
 #PMOS OFF
 source_file = 'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\PMOS_off.ckt'
@@ -60,7 +61,7 @@ for i in [1, 2, 3, 4, 6, 8]:
     new_string2 = f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\PMOS_OFF{i}.txt'
     copy_and_edit_file(source_file, destination_file, string_to_replace1, new_string1, string_to_replace2, new_string2)
     os.system(f'ngspice_con -b DVD_MOS_files\\temp\\PMOS_off{i}.ckt')
-    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\PMOS_OFF{i}.txt')
+    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\PMOS_OFF{i}.txt',"v(drain)",columns)
 
 source_file = 'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\PMOS_on.ckt'
 for i in [1, 2, 3, 4, 6, 8]:
@@ -71,5 +72,5 @@ for i in [1, 2, 3, 4, 6, 8]:
     new_string2 = f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\PMOS_ON{i}.txt'
     copy_and_edit_file(source_file, destination_file, string_to_replace1, new_string1, string_to_replace2, new_string2)
     os.system(f'ngspice_con -b DVD_MOS_files\\temp\\PMOS_on{i}.ckt')
-    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\PMOS_ON{i}.txt')
+    parse_file(f'E:\DVD\project_1\DVD-Project---1\DVD_MOS_files\\temp\\outputs\\PMOS_ON{i}.txt',"v(drain)",columns)
     

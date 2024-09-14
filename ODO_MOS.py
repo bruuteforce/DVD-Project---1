@@ -9,8 +9,8 @@ def change_extension(file_path, new_extension):
     return new_file_path
 
 lookup_table={}
-columns=['vdrain','vgate','vsource','vbody','idrain','igate','isource','ibody']
-def parse_file(filename):
+# columns=['vdrain','vgate','vsource','vbody','idrain','igate','isource','ibody']
+def parse_file(filename,delimiter,columns):
     try:
         with open(filename, 'r') as file:
             temp=""
@@ -18,8 +18,12 @@ def parse_file(filename):
             j=0
             file_path = change_extension(filename,'text')
             filew=open(file_path, 'a')
-            filew.write('vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
-            print('vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
+            ##filew.write('vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
+            #print('vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
+            for item in columns:
+                print(f"{item:<13}", end=" ")
+                filew.write(f"{item:<13} ")
+
             for line in file:
                 line = line.strip()  # Remove leading/trailing whitespace
                 if '=' in line:
@@ -28,7 +32,7 @@ def parse_file(filename):
                     value = value.strip()
                     ##print(f"{variable} {value}")
                     
-                    if(variable == "v(drain)"):
+                    if(variable == delimiter):
                         ##print(temp)
                         filew.write(temp+'\n')
                         values_list = temp.split()
