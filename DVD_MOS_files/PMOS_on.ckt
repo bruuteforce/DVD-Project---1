@@ -15,12 +15,14 @@ Vdd   d1	0		0
 Vss   s1  0   0
 .TEMP 25
 .CONTROL
+echo "PMOS ON Condition" > PMOS_on.txt
 let voltage = 0
 while voltage le 1.15
   let voltage1 = 0
+  alter Vss = 0
   while voltage1 le 1.15
     dc TEMP 25 50 30
-    print V(drain) V(gate) V(source) V(body) I(Vd) I(Vg) I(Vs) I(Vb)
+    print V(drain) V(gate) V(source) V(body) I(Vd) I(Vg) I(Vs) I(Vb) >> PMOS_on.txt
     let voltage1 = voltage1 + 0.05
     alter Vss = voltage1
   end
