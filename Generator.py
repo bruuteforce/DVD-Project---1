@@ -91,3 +91,13 @@ if not os.path.exists('STACKED_MOS_files\\temp'):
     os.system(f'ngspice_con -b STACKED_MOS_files\\temp\\AandBn.ckt')
     parse_file(f'STACKED_MOS_files\\temp\\outputs\\AandBn.txt',"v(sd1)",columns)
 
+    columns=['v(sd1)','vgen','va','vb']
+    source_file = 'STACKED_MOS_files\AandBp.ckt'
+    destination_file = f'STACKED_MOS_files\\temp\\AandBp.ckt'
+    # string_to_replace1 = '.PARAM Wmin=45n'
+    # new_string1 = f'.PARAM Wmin=45n*{i}'
+    string_to_replace2 = 'AandBp.txt'
+    new_string2 = f'STACKED_MOS_files\\temp\\outputs\\AandBp.txt'
+    copy_and_edit_file(source_file, destination_file, string_to_replace2, new_string2)
+    os.system(f'ngspice_con -b STACKED_MOS_files\\temp\\AandBp.ckt')
+    parse_file(f'STACKED_MOS_files\\temp\\outputs\\AandBp.txt',"v(sd1)",columns)
