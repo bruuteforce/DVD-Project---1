@@ -2,7 +2,7 @@
 *(AandB)n for all combinations of input.
 
 .INCLUDE ../model/45nm_HP.pm
-.OPTIONS GMIN=1e-020 ABSTOL=1e-018
+*.OPTIONS GMIN=1e-020 ABSTOL=1e-018
 
 *Definition 
 .PARAM Lmin=45n
@@ -17,13 +17,13 @@ Vbody2 b2 0 0
 Vgnd G 0 0
 Vzero SD22 SD11 0
 
-Mn1 	SD11 	A 	G 		b1 	pmos W={Wmin} L={Lmin}
-Mn2 	vgen 	B 	SD22 	b2 	pmos W={Wmin} L={Lmin} 
+Mn1 	SD11 	A 	G 		b1 	nmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
+Mn2 	vgen 	B 	SD22 	b2 	nmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
 
 .TEMP 25
 
 .CONTROL
-echo "AandBn Stack" > AandBn.txt
+echo "AandBn Stack" > AandBn-debug.txt
 let Ldiff=90n
 foreach Vddbasic 1.1
   echo Vdd basic = $Vddbasic
@@ -44,7 +44,7 @@ foreach Vddbasic 1.1
 	 	echo DC Analysis at 25C
 		            			
 		dc TEMP 25 90 70
-		print V(SD11) V(SD22) V(vgen) V(A) V(B) I(Vdd) I(Va) I(Vb) I(Vbody1) I(Vbody2) I(Vgnd) I(Vzero)  >> AandBn.txt
+		print V(SD11) V(SD22) V(vgen) V(A) V(B) I(Vdd) I(Va) I(Vb) I(Vbody1) I(Vbody2) I(Vgnd) I(Vzero)  >> AandBn-debug.txt
 			   
 			        end
 			    end	

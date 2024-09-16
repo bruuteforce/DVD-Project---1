@@ -2,7 +2,7 @@
 *(AandB)n for all combinations of input.
 
 .INCLUDE 45nm_HP.pm
-.OPTIONS GMIN=1e-020 ABSTOL=1e-018
+*.OPTIONS GMIN=1e-020 ABSTOL=1e-018
 
 *Definition 
 .PARAM Lmin=45n
@@ -15,8 +15,8 @@ Vb 	B 	0
 Vbody1 b1	0	1.1
 Vbody2	b2	0	1.1
 
-Mp1 	0 		A 	SD1 	b2 	pmos W={Wmin} L={Lmin}
-Mp2 	SD1 	B 	vgen 	b1 	pmos W={Wmin} L={Lmin} 
+Mp1 	0 		A 	SD1 	b2 	pmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
+Mp2 	SD1 	B 	vgen 	b1 	pmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
 
 .TEMP 25
 .CONTROL

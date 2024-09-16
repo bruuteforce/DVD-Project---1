@@ -17,16 +17,16 @@ Vss   s1  0   0
 .CONTROL
 echo "NMOS OFF Condition" > NMOS_off.txt
 let voltage = 0
-while voltage le 1.15
+while voltage le 1.125
   let voltage1 = 0
   alter Vss = 0
-  while voltage1 le 1.15
+  while voltage1 le 1.125
     dc TEMP 25 50 30
     print V(drain) V(gate) V(source) V(body) I(Vd) I(Vg) I(Vs) I(Vb) >> NMOS_off.txt
-    let voltage1 = voltage1 + 0.05
+    let voltage1 = voltage1 + 0.025
     alter Vss = voltage1
   end
-  let voltage = voltage + 0.05
+  let voltage = voltage + 0.025
   alter Vdd = voltage
 end
 .ENDC
