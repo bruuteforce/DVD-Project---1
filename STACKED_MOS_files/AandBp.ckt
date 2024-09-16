@@ -1,7 +1,7 @@
 *cfr3-BandAn -- Indipendent signal generators and Vdd power supply
 *(AandB)n for all combinations of input.
 
-.INCLUDE ../model/45nm_HP.pm
+.INCLUDE 45nm_HP.pm
 .OPTIONS GMIN=1e-020 ABSTOL=1e-018
 
 *Definition 
@@ -12,39 +12,29 @@
 Vdd 	vgen 	0 
 Va 	A 	0 	
 Vb 	B 	0 
-Vbody1  b1 0 0
-Vbody2 b2 0 0
-Vgnd G 0 0
-Vzero SD22 SD11 0
+Vbody1 b1	0	1.1
+Vbody2	b2	0	1.1
 
-Mn1 	SD11 	A 	G 		b1 	pmos W={Wmin} L={Lmin}
-Mn2 	vgen 	B 	SD22 	b2 	pmos W={Wmin} L={Lmin} 
+Mp1 	0 		A 	SD1 	b2 	pmos W={Wmin} L={Lmin}
+Mp2 	SD1 	B 	vgen 	b1 	pmos W={Wmin} L={Lmin} 
 
 .TEMP 25
-
 .CONTROL
-echo "AandBn Stack" > AandBn.txt
+echo "AandBn Stack" > AandBp.txt
 let Ldiff=90n
 foreach Vddbasic 1.1
   echo Vdd basic = $Vddbasic
    alter Vdd = $Vddbasic
 	foreach width 45n
-
-	echo
-	echo
 	echo Wmin=$width
-
 			foreach input 0 $Vddbasic
 		 	alter Va = $input
  	        			foreach input 0 $Vddbasic
 					 alter Vb = $input
 			        *if not(@Vdd[DC] & @Va[DC] & @Vb[DC] )
-		
-
-	 	echo DC Analysis at 25C
-		            			
+	 	echo DC Analysis at 25C          			
 		dc TEMP 25 90 70
-		print V(SD11) V(SD22) V(vgen) V(A) V(B) I(Vdd) I(Va) I(Vb) I(Vbody1) I(Vbody2) I(Vgnd) I(Vzero)  >> AandBn.txt
+		print V(SD1) V(vgen) V(A) V(B) >> AandBp.txt
 			   
 			        end
 			    end	
