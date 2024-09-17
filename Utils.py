@@ -1,7 +1,7 @@
 import pandas as pd
 
-def round0_05(value):
-    return round(value*20)/20
+def __round(value):
+    return round(value*40)/40
 
 Vdd=1.1
 
@@ -44,17 +44,17 @@ df_n = pd.read_csv("STACKED_MOS_files\\temp\outputs\AandBn.csv")
 
 for index, row in df_n.iterrows():
     print(f"Index: {index}")
-    print(f"vsd1: {round0_05(row['v(sd1)'])}, vgen: {round0_05(row['vgen'])},va: {round0_05(row['va'])},vb: {round0_05(row['vb'])}")
+    print(f"vsd1: {__round(row['v(sd1)'])}, vgen: {__round(row['vgen'])},va: {__round(row['va'])},vb: {__round(row['vb'])}")
     # M1
-    drain = round0_05(row['v(sd1)'])
-    gate = round0_05(row['va'])
+    drain = __round(row['v(sd1)'])
+    gate = __round(row['va'])
     source = 0
     body = 0
     VI_data_1=fetch_currents_nmos(drain,gate,source,body)
     # M2
-    drain = round0_05(row['vgen'])
-    gate = round0_05(row['vb'])
-    source = round0_05(row['v(sd1)'])
+    drain = __round(row['vgen'])
+    gate = __round(row['vb'])
+    source = __round(row['v(sd1)'])
     body = 0
     VI_data_2=fetch_currents_nmos(drain,gate,source,body)
 
@@ -66,18 +66,18 @@ df_p = pd.read_csv("STACKED_MOS_files\\temp\outputs\AandBp.csv")
 
 for index, row in df_p.iterrows():
     print(f"Index: {index}")
-    print(f"vsd1: {round0_05(row['v(sd1)'])}, vgen: {round0_05(row['vgen'])},va: {round0_05(row['va'])},vb: {round0_05(row['vb'])}")
+    print(f"vsd1: {__round(row['v(sd1)'])}, vgen: {__round(row['vgen'])},va: {__round(row['va'])},vb: {__round(row['vb'])}")
     # M1
     drain = 0
-    gate = round0_05(row['va'])
-    source = round0_05(row['v(sd1)'])
-    body = 1.1
+    gate = __round(row['va'])
+    source = __round(row['v(sd1)'])
+    body = Vdd
     VI_data_1=fetch_currents_pmos(drain,gate,source,body)
     # M2
-    drain = round0_05(row['v(sd1)'])
-    gate = round0_05(row['vb'])
-    source = round0_05(row['vgen'])
-    body = 1.1
+    drain = __round(row['v(sd1)'])
+    gate = __round(row['vb'])
+    source = __round(row['vgen'])
+    body = Vdd
     VI_data_2=fetch_currents_pmos(drain,gate,source,body)
 
     # print(VI_data_1)
