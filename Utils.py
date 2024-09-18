@@ -6,7 +6,7 @@ def __round(value):
 Vdd=1.1
 
 # Open the file in write mode to clear its contents
-with open('Utils.txt', 'w') as file:
+with open('Estimations.txt', 'w') as file:
     pass  # 'pass' does nothing, but opening in 'w' mode clears the file
 
 
@@ -77,7 +77,7 @@ for index, row in df_n.iterrows():
         case _:
             print("Invalid combination")
     print(leakage_current)
-    with open('Utils.txt', 'a') as f:
+    with open('Estimations.txt', 'a') as f:
         f.write(f"NMOS stack:\nvsd1: {__round(row['v(sd1)'])}, vgen: {__round(row['vgen'])},va: {__round(row['va'])},vb: {__round(row['vb'])}\n")
         f.write('M1(Bottom):\n')
         f.write(VI_data_1.to_string(index=False)+'\n')
@@ -119,7 +119,7 @@ for index, row in df_p.iterrows():
             print("Invalid combination")
     print(leakage_current)
     
-    with open('Utils.txt', 'a') as f:
+    with open('Estimations.txt', 'a') as f:
         f.write(f"PMOS stack:\nvsd1: {__round(row['v(sd1)'])}, vgen: {__round(row['vgen'])},va: {__round(row['va'])},vb: {__round(row['vb'])}\n")
         f.write('M1(Bottom):\n')
         f.write(VI_data_1.to_string(index=False)+'\n')
