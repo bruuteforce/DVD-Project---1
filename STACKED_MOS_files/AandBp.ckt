@@ -14,27 +14,28 @@ Va 	A 	0
 Vb 	B 	0 
 Vbody1 b1	0	1.1
 Vbody2	b2	0	1.1
+Vss 	vgnd 	0
 
-Mp1 	0 		A 	SD1 	b2 	pmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
+Mp1 	vgnd 		A 	SD1 	b2 	pmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
 Mp2 	SD1 	B 	vgen 	b1 	pmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
 
 .TEMP 25
 .CONTROL
-echo "AandBn Stack" > AandBp.txt
+echo "AandBp Stack" > AandBp.txt
 let Ldiff=90n
-foreach Vddbasic 1.1
-  echo Vdd basic = $Vddbasic
-   alter Vdd = $Vddbasic
+foreach VssBasic 0 1.1
+   alter Vdd = 1.1
+   alter Vss = $VssBasic
 	foreach width 45n
 	echo Wmin=$width
-			foreach input 0 $Vddbasic
+			foreach input 0 1.1
 		 	alter Va = $input
- 	        			foreach input 0 $Vddbasic
+ 	        			foreach input 0 1.1
 					 alter Vb = $input
 			        *if not(@Vdd[DC] & @Va[DC] & @Vb[DC] )
 	 	echo DC Analysis at 25C          			
 		dc TEMP 25 90 70
-		print V(SD1) V(vgen) V(A) V(B) >> AandBp.txt
+		print V(SD1) (V(A)*I(Va)+V(B)*I(Vb)+V(vgen)*I(Vdd)+V(vgnd)*I(Vss)+V(b1)*I(Vbody1)+V(b2)*I(Vbody2))/1.1 V(vgen) V(vgnd) V(A) V(B) >> AandBp.txt
 			   
 			        end
 			    end	

@@ -21,7 +21,7 @@ Mn2 	vgen 	B 	SD1 	0 	nmos W={Wmin} L={Lmin}
 .CONTROL
 echo "AandBn Stack" > AandBn.txt
 let Ldiff=90n
-foreach Vddbasic 1.1
+foreach Vddbasic 0 1.1
   echo Vdd basic = $Vddbasic
    alter Vdd = $Vddbasic
 	foreach width 45n
@@ -30,9 +30,9 @@ foreach Vddbasic 1.1
 	echo
 	echo Wmin=$width
 
-			foreach input 0 $Vddbasic
+			foreach input 0 1.1
 		 	alter Va = $input
- 	        			foreach input 0 $Vddbasic
+ 	        			foreach input 0 1.1
 					 alter Vb = $input
 			        *if not(@Vdd[DC] & @Va[DC] & @Vb[DC] )
 		
@@ -40,7 +40,7 @@ foreach Vddbasic 1.1
 	 	echo DC Analysis at 25C
 		            			
 		dc TEMP 25 90 70
-		print V(SD1) ((V(A)*(I(Va))+V(B)*(I(Vb))+V(vgen)*(I(Vdd)))) V(vgen) V(A) V(B) >> AandBn.txt
+		print V(SD1) ((V(A)*(I(Va))+V(B)*(I(Vb))+V(vgen)*(I(Vdd))))/1.1 V(vgen) V(A) V(B) >> AandBn.txt
 			   
 			        end
 			    end	

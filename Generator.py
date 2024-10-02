@@ -80,7 +80,7 @@ if not os.path.exists('STACKED_MOS_files\\temp'):
     os.mkdir('STACKED_MOS_files\\temp')
     os.mkdir('STACKED_MOS_files\\temp\\outputs')
 
-    columns=['v(sd1)','power?','vgen','va','vb']
+    columns=['v(sd1)','current','vgen','va','vb']
     source_file = 'STACKED_MOS_files\AandBn.ckt'
     destination_file = f'STACKED_MOS_files\\temp\\AandBn.ckt'
     # string_to_replace1 = '.PARAM Wmin=45n'
@@ -91,7 +91,7 @@ if not os.path.exists('STACKED_MOS_files\\temp'):
     os.system(f'ngspice_con -b STACKED_MOS_files\\temp\\AandBn.ckt')
     parse_file(f'STACKED_MOS_files\\temp\\outputs\\AandBn.txt',"v(sd1)",columns)
 
-    columns=['v(sd1)','vgen','va','vb']
+    columns=['v(sd1)','current','vgen','vgnd','va','vb']
     source_file = 'STACKED_MOS_files\AandBp.ckt'
     destination_file = f'STACKED_MOS_files\\temp\\AandBp.ckt'
     # string_to_replace1 = '.PARAM Wmin=45n'
