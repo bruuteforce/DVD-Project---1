@@ -20,17 +20,17 @@ In "System Variables" double click on "Path" and add the ngspice bin folder Path
 
 ![alt text](image.png)
 
-NMOS Stack Leakage Estimation:
-//   (Va,Vb)
-//Both OFF :: Id of M2(TOP)
-case (0, 0):
-    leakage_current=VI_data_2['idrain'].values[0]
-//M1:OFF M2:ON :: Id of M1 + Ig of M2
-case (0, 1.1):
-    leakage_current=VI_data_1['idrain'].values[0]+VI_data_2['igate'].values[0]
-//M1:ON M2:OFF :: Ig of M1 + Id of M2
-case (1.1, 0):
-    leakage_current=VI_data_1['igate'].values[0]+VI_data_2['idrain'].values[0]
-//M1:ON M2:ON :: Ig of M1 + Ig of M2
-case (1.1,1.1):
+NMOS Stack Leakage Estimation:\
+//   (Va,Vb)\
+//Both OFF :: Id of M2(TOP)\
+case (0, 0):\
+    leakage_current=VI_data_2['idrain'].values[0]\
+//M1:OFF M2:ON :: Id of M1 + Ig of M2\
+case (0, 1.1):\
+    leakage_current=VI_data_1['idrain'].values[0]+VI_data_2['igate'].values[0]\
+//M1:ON M2:OFF :: Ig of M1 + Id of M2\
+case (1.1, 0):\
+    leakage_current=VI_data_1['igate'].values[0]+VI_data_2['idrain'].values[0]\
+//M1:ON M2:ON :: Ig of M1 + Ig of M2\
+case (1.1,1.1):\
     leakage_current=VI_data_1['igate'].values[0]+VI_data_2['igate'].values[0]
