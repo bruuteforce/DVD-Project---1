@@ -17,12 +17,13 @@ def parse_file(filename,delimiter,columns):
             global lookup_table
             j=0
             file_path = change_extension(filename,'text')
-            filew=open(file_path, 'a')
+            #dont open file if no text output needed
+            filew=None #open(file_path, 'a')
             ##filew.write('vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
             #print('vdrain       vgate      vsource          vbody        idrain        igate        isource     ibody')
             for item in columns:
                 print(f"{item:<13}", end=" ")
-                filew.write(f"{item:<13} ")
+                filew and filew.write(f"{item:<13} ")
 
             for line in file:
                 line = line.strip()  # Remove leading/trailing whitespace
@@ -34,7 +35,7 @@ def parse_file(filename,delimiter,columns):
                     
                     if(variable == delimiter):
                         ##print(temp)
-                        filew.write(temp+'\n')
+                        filew and filew.write(temp+'\n')
                         values_list = temp.split()
                         #print(values_list)
                         if(len(values_list)==len(columns)):
@@ -45,7 +46,7 @@ def parse_file(filename,delimiter,columns):
 
                     temp=f"{temp} {value}"
             values_list = temp.split()
-            filew.write(temp+'\n')
+            filew and filew.write(temp+'\n')
             if(len(values_list)==len(columns)):
                 #print(values_list)
                 lookup_table[j] = {columns[i]: values_list[i] for i in range(len(columns))}
@@ -61,7 +62,7 @@ def parse_file(filename,delimiter,columns):
     print(lookup_table)
     
     # Export DataFrame to Excel
-    df.to_excel(change_extension(filename,'xlsx'), index=False)
+    #df.to_excel(change_extension(filename,'xlsx'), index=False)
     df.to_csv(change_extension(filename,'csv'), index=False)
 
 

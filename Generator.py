@@ -101,3 +101,41 @@ if not os.path.exists('STACKED_MOS_files\\temp'):
     copy_and_edit_file(source_file, destination_file, string_to_replace2, new_string2)
     os.system(f'ngspice_con -b STACKED_MOS_files\\temp\\AandBp.ckt')
     parse_file(f'STACKED_MOS_files\\temp\\outputs\\AandBp.txt',"v(sd1)",columns)
+
+
+if not os.path.exists('CMOS_GATE_files\\temp'):
+    os.mkdir('CMOS_GATE_files\\temp')
+    os.mkdir('CMOS_GATE_files\\temp\\outputs')
+#inverter
+    columns=['v(node1)','v(nodea)','v(nodez)','current_vdd','current_total']
+    source_file = 'CMOS_GATE_files\Inverter.net'
+    destination_file = f'CMOS_GATE_files\\temp\\Inverter.net'
+    # string_to_replace1 = '.PARAM Wmin=45n'
+    # new_string1 = f'.PARAM Wmin=45n*{i}'
+    string_to_replace2 = 'Inverter.txt'
+    new_string2 = f'CMOS_GATE_files\\temp\\outputs\\Inverter.txt'
+    copy_and_edit_file(source_file, destination_file, string_to_replace2, new_string2)
+    os.system(f'ngspice_con -b CMOS_GATE_files\\temp\\Inverter.net')
+    parse_file(f'CMOS_GATE_files\\temp\\outputs\\Inverter.txt',"v(node1)",columns)
+#nand
+    columns=['v(node1)','v(nodea)','v(nodeb)','current_vdd','current_total']
+    source_file = 'CMOS_GATE_files\\nand.net'
+    destination_file = f'CMOS_GATE_files\\temp\\nand.net'
+    # string_to_replace1 = '.PARAM Wmin=45n'
+    # new_string1 = f'.PARAM Wmin=45n*{i}'
+    string_to_replace2 = 'Nand.txt'
+    new_string2 = f'CMOS_GATE_files\\temp\\outputs\\Nand.txt'
+    copy_and_edit_file(source_file, destination_file, string_to_replace2, new_string2)
+    os.system(f'ngspice_con -b CMOS_GATE_files\\temp\\nand.net')
+    parse_file(f'CMOS_GATE_files\\temp\\outputs\\nand.txt',"v(node1)",columns)
+#nor
+    columns=['v(node1)','v(nodea)','v(nodeb)','current_vdd','current_total']
+    source_file = 'CMOS_GATE_files\\nor.net'
+    destination_file = f'CMOS_GATE_files\\temp\\nor.net'
+    # string_to_replace1 = '.PARAM Wmin=45n'
+    # new_string1 = f'.PARAM Wmin=45n*{i}'
+    string_to_replace2 = 'Nor.txt'
+    new_string2 = f'CMOS_GATE_files\\temp\\outputs\\Nor.txt'
+    copy_and_edit_file(source_file, destination_file, string_to_replace2, new_string2)
+    os.system(f'ngspice_con -b CMOS_GATE_files\\temp\\nor.net')
+    parse_file(f'CMOS_GATE_files\\temp\\outputs\\nor.txt',"v(node1)",columns)

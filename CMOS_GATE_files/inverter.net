@@ -1,0 +1,51 @@
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP
+*.options INGOLD=2     DCON=1
+*.options GSHUNT=1e-15
+*.options RMIN=1e-15
+.options ABSTOL=1e-18 
+*.options RELTOL=1e-20  
+*.options RELVDC=1e-2 
+*.options NUMDGT=4     PIVOT=1e-13
+*.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Net-list*************	
+Mp1	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
+
+Mn1	nodez	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
+
+
+****Supply**************
+Vdd node1 0 1.1V
+
+****Input***************
+VinA nodea 0
+
+.TEMP 25
+
+.CONTROL
+echo "Inverter" > Inverter.txt
+Foreach Vddbasic 1.1 
+	echo Vddbasic = $Vddbasic
+		alter Vdd = $Vddbasic
+
+foreach input 0 $Vddbasic
+	alter VinA = $input
+			echo DC Analysis at 27C
+		           dc TEMP 25 50 60
+print V(node1) V(nodea) V(nodez) (-V(node1)*I(Vdd)) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina))) >> Inverter.txt
+
+	end
+end
+
+.ENDC
+.END

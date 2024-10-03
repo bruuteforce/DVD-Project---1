@@ -13,8 +13,8 @@ Vdd 	vgen 	0
 Va 	A 	0 	
 Vb 	B 	0 
 
-Mn1 	SD1 	A 	0 		0 	nmos W={Wmin} L={Lmin}
-Mn2 	vgen 	B 	SD1 	0 	nmos W={Wmin} L={Lmin} 
+Mn1 	SD1 	A 	0 		0 	nmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)}
+Mn2 	vgen 	B 	SD1 	0 	nmos W={Wmin} L={Lmin} AS={Wmin*Ldiff} AD={Wmin*Ldiff} PS={2*(Ldiff+Wmin)} PD={2*(Ldiff+Wmin)} 
 
 .TEMP 25
 
