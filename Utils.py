@@ -203,3 +203,61 @@ for index, row in df_Nand.iterrows():
     body = 0
     VI_data_N2=fetch_currents_nmos(drain,gate,source,body,2)
     print(f"\nNand:(va:{__round(row['v(nodea)'])},vb:{__round(row['v(nodeb)'])})\n{VI_data_P1}\n{VI_data_P2}\n{VI_data_N1}\n{VI_data_N2}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")
+
+df_Nand = pd.read_csv("CMOS_GATE_files\\temp\outputs\\Nand.csv")
+for index, row in df_Nand.iterrows():
+    #v(node1),v(nodea),v(nodeb),v(nodez),current_vdd,current_total
+    #PMOS1
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodea)'])
+    source = __round(row['v(node1)'])
+    body = __round(row['v(node1)'])
+    VI_data_P1=fetch_currents_pmos(drain,gate,source,body,2)
+    #PMOS2
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodeb)'])
+    source = __round(row['v(node1)'])
+    body = __round(row['v(node1)'])
+    VI_data_P2=fetch_currents_pmos(drain,gate,source,body,2)
+    #NMOS1
+    drain = __round(row['v(sd2)'])
+    gate = __round(row['v(nodea)'])
+    source = 0
+    body = 0
+    VI_data_N1=fetch_currents_nmos(drain,gate,source,body,2)
+    #NMOS2
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodeb)'])
+    source = __round(row['v(sd2)'])
+    body = 0
+    VI_data_N2=fetch_currents_nmos(drain,gate,source,body,2)
+    print(f"\nNand:(va:{__round(row['v(nodea)'])},vb:{__round(row['v(nodeb)'])})\n{VI_data_P1}\n{VI_data_P2}\n{VI_data_N1}\n{VI_data_N2}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")
+
+df_Nor = pd.read_csv("CMOS_GATE_files\\temp\outputs\\Nor.csv")
+for index, row in df_Nor.iterrows():
+    #v(node1),v(nodea),v(nodeb),v(nodez),v(node2),current_vdd,current_total
+    #PMOS1
+    drain = __round(row['v(node2)'])
+    gate = __round(row['v(nodea)'])
+    source = __round(row['v(node1)'])
+    body = __round(row['v(node1)'])
+    VI_data_P1=fetch_currents_pmos(drain,gate,source,body,2)
+    #PMOS2
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodeb)'])
+    source = __round(row['v(node2)'])
+    body = __round(row['v(node2)'])
+    VI_data_P2=fetch_currents_pmos(drain,gate,source,body,2)
+    #NMOS1
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodea)'])
+    source = 0
+    body = 0
+    VI_data_N1=fetch_currents_nmos(drain,gate,source,body,2)
+    #NMOS2
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodeb)'])
+    source = 0
+    body = 0
+    VI_data_N2=fetch_currents_nmos(drain,gate,source,body,2)
+    print(f"\nNor:(va:{__round(row['v(nodea)'])},vb:{__round(row['v(nodeb)'])})\n{VI_data_P1}\n{VI_data_P2}\n{VI_data_N1}\n{VI_data_N2}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")

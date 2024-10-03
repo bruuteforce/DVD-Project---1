@@ -129,7 +129,7 @@ if not os.path.exists('CMOS_GATE_files\\temp'):
     os.system(f'ngspice_con -b CMOS_GATE_files\\temp\\Nand.net')
     parse_file(f'CMOS_GATE_files\\temp\\outputs\\Nand.txt',"v(node1)",columns)
 #nor
-    columns=['v(node1)','v(nodea)','v(nodeb)','current_vdd','current_total']
+    columns=['v(node1)','v(nodea)','v(nodeb)','v(nodez)','v(node2)','current_vdd','current_total']
     source_file = 'CMOS_GATE_files\\nor.net'
     destination_file = f'CMOS_GATE_files\\temp\\Nor.net'
     # string_to_replace1 = '.PARAM Wmin=45n'
