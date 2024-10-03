@@ -42,7 +42,7 @@ foreach input 0 $Vddbasic
 	alter VinA = $input
 			echo DC Analysis at 27C
 		           dc TEMP 25 50 60
-print V(node1) V(nodea) V(nodez) (-V(node1)*I(Vdd)) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina))) >> Inverter.txt
+print V(node1) V(nodea) V(nodez) (-V(node1)*I(Vdd))/V(node1) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina)))/V(node1) >> Inverter.txt
 
 	end
 end

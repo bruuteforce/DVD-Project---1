@@ -15,6 +15,11 @@ n_off_1 = pd.read_csv("DVD_MOS_files\\temp\outputs\\NMOS_OFF1.csv")
 p_on_1 = pd.read_csv("DVD_MOS_files\\temp\outputs\PMOS_ON1.csv")
 p_off_1 = pd.read_csv("DVD_MOS_files\\temp\outputs\PMOS_OFF1.csv")
 
+n_on_2 = pd.read_csv("DVD_MOS_files\\temp\outputs\\NMOS_ON2.csv")
+n_off_2 = pd.read_csv("DVD_MOS_files\\temp\outputs\\NMOS_OFF2.csv")
+p_on_2 = pd.read_csv("DVD_MOS_files\\temp\outputs\PMOS_ON2.csv")
+p_off_2 = pd.read_csv("DVD_MOS_files\\temp\outputs\PMOS_OFF2.csv")
+
 def update_estims(MOS_TYP,row,VI_data_1,VI_data_2,leakage_current):
     with open('Estimations.txt', 'a') as f:
         f.write(f"{MOS_TYP} stack:\nvsd1: {__round(row['v(sd1)'])}, vgen: {__round(row['vgen'])},va: {__round(row['va'])},vb: {__round(row['vb'])}\n")
@@ -26,25 +31,49 @@ def update_estims(MOS_TYP,row,VI_data_1,VI_data_2,leakage_current):
         f.write(f"Simulated Leakage Current:{row['current']}\n")
         f.write(f"{100*abs((abs(leakage_current)-abs(row['current']))/row['current'])}\n\n")
 
-def fetch_currents_nmos(drain,gate,source,body):
+def fetch_currents_nmos(drain,gate,source,body,scaling=1):
     if gate>Vdd/2.0 :
-        actv_df=n_on_1
+        match(scaling):
+            case(1):
+                actv_df=n_on_1
+            case(2):
+                actv_df=n_on_2
+            case _:
+                print("update logic")
         # print("ON")
     else :
         # print("OFF")
-        actv_df=n_off_1
+         match(scaling):
+            case(1):
+                actv_df=n_off_1
+            case(2):
+                actv_df=n_off_2
+            case _:
+                print("update logic")
     # print(drain,gate,source,body)
     match=actv_df.loc[(actv_df['vdrain']==drain) & (actv_df['vsource']==source) & (actv_df['vgate']==gate) & (actv_df['vbody']==body)]
     # print(actv_df.loc[(actv_df['vdrain']==drain) & (actv_df['vsource']==source) & (actv_df['vgate']==gate) & (actv_df['vbody']==body)])
     return match
 
-def fetch_currents_pmos(drain,gate,source,body):
+def fetch_currents_pmos(drain,gate,source,body,scaling=1):
     if gate<Vdd/2.0 :
-        actv_df=p_on_1
+        match(scaling):
+            case(1):
+                actv_df=p_on_1
+            case(2):
+                actv_df=p_on_2
+            case _:
+                print("update logic")
         # print("ON")
     else :
         # print("OFF")
-        actv_df=p_off_1
+        match(scaling):
+            case(1):
+                actv_df=p_off_1
+            case(2):
+                actv_df=p_off_2
+            case _:
+                print("update logic")
     # print(drain,gate,source,body)
     match=actv_df.loc[(actv_df['vdrain']==drain) & (actv_df['vsource']==source) & (actv_df['vgate']==gate) & (actv_df['vbody']==body)]
     # print(actv_df.loc[(actv_df['vdrain']==drain) & (actv_df['vsource']==source) & (actv_df['vgate']==gate) & (actv_df['vbody']==body)])
@@ -128,3 +157,49 @@ for index, row in df_p.iterrows():
             update_estims("PMOS",row,VI_data_1,VI_data_2,leakage_current)
         case _:
             print("Invalid combination")
+
+df_Inv = pd.read_csv("CMOS_GATE_files\\temp\outputs\Inverter.csv")
+for index, row in df_Inv.iterrows():
+    #v(node1),v(nodea),v(nodez),current_vdd,current_total
+    #PMOS
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodea)'])
+    source = __round(row['v(node1)'])
+    body = __round(row['v(node1)'])
+    VI_data_P=fetch_currents_pmos(drain,gate,source,body,2)
+    #NMOS
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodea)'])
+    source = 0
+    body = 0
+    VI_data_N=fetch_currents_nmos(drain,gate,source,body,2)
+    print(f"\nInverter:(va:{__round(row['v(nodea)'])})\n{VI_data_P}\n{VI_data_N}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")
+
+df_Nand = pd.read_csv("CMOS_GATE_files\\temp\outputs\\Nand.csv")
+for index, row in df_Nand.iterrows():
+    #v(node1),v(nodea),v(nodeb),v(nodez),current_vdd,current_total
+    #PMOS1
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodea)'])
+    source = __round(row['v(node1)'])
+    body = __round(row['v(node1)'])
+    VI_data_P1=fetch_currents_pmos(drain,gate,source,body,2)
+    #PMOS2
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodeb)'])
+    source = __round(row['v(node1)'])
+    body = __round(row['v(node1)'])
+    VI_data_P2=fetch_currents_pmos(drain,gate,source,body,2)
+    #NMOS1
+    drain = __round(row['v(sd2)'])
+    gate = __round(row['v(nodea)'])
+    source = 0
+    body = 0
+    VI_data_N1=fetch_currents_nmos(drain,gate,source,body,2)
+    #NMOS2
+    drain = __round(row['v(nodez)'])
+    gate = __round(row['v(nodeb)'])
+    source = __round(row['v(sd2)'])
+    body = 0
+    VI_data_N2=fetch_currents_nmos(drain,gate,source,body,2)
+    print(f"\nNand:(va:{__round(row['v(nodea)'])},vb:{__round(row['v(nodeb)'])})\n{VI_data_P1}\n{VI_data_P2}\n{VI_data_N1}\n{VI_data_N2}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")

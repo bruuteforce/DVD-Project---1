@@ -1,1 +1,3 @@
 GATE netlists dont have the similar MOS device definitions as single MOS
+PMOS and NMOS both have same W/L?
+recheck the netlists(made correction in current calculation /1.1)
