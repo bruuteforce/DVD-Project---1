@@ -21,7 +21,7 @@
 ****Net-list*************	
 Mp1	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
 
-Mn1	nodez	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
+Mn1	nodez	nodea	0 	0 	nmos W={1*XX*Wmin} L={Lmin}	
 
 
 ****Supply**************

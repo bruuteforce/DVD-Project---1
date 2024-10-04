@@ -39,17 +39,16 @@ VinB nodeb 0
 echo "Nand" > Nand.txt
 Foreach Vddbasic 1.1 
 	echo Vddbasic = $Vddbasic
-		alter Vdd = $Vddbasic
+	alter Vdd = $Vddbasic
+		foreach input 0 $Vddbasic
+			alter VinA = $input
+			foreach input 0 $Vddbasic 
+				alter Vinb = $input
+					echo DC Analysis at 25C 
+		           	dc TEMP 25 90 70
+					print V(node1) V(nodea) V(nodeb) V(nodez) V(SD2) (-V(node1)*I(Vdd))/V(node1) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina))+(-V(nodeb)*I(Vinb)))/V(node1) >> Nand.txt
 
-foreach input 0 $Vddbasic
-	alter VinA = $input
-foreach input 0 $Vddbasic 
-		alter Vinb = $input
-			echo DC Analysis at 25C 
-		           dc TEMP 25 90 70
-print V(node1) V(nodea) V(nodeb) V(nodez) V(SD2) (-V(node1)*I(Vdd))/V(node1) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina))+(-V(nodeb)*I(Vinb)))/V(node1) >> Nand.txt
-
-	end
+			end
 		end
 end
 

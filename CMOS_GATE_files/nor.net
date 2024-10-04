@@ -21,11 +21,11 @@
 .PARAM XX=1
 
 ****Net-list*************
-Mp1	node2	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
-Mp2	nodez	nodeb	node2 	node2 	pmos W={2*XX*Wmin} L={Lmin}	
+Mp1	node2	nodea	node1 	node1 	pmos W={4*XX*Wmin} L={Lmin}	
+Mp2	nodez	nodeb	node2 	node2 	pmos W={4*XX*Wmin} L={Lmin}	
 
-Mn1	nodez	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
-Mn2	nodez	nodeb	0 	0 	nmos W={2*XX*Wmin} L={Lmin}
+Mn1	nodez	nodea	0 	0 	nmos W={1*XX*Wmin} L={Lmin}	
+Mn2	nodez	nodeb	0 	0 	nmos W={1*XX*Wmin} L={Lmin}
 
 ****Supply**************
 Vdd node1 0 1.1V
@@ -40,19 +40,17 @@ VinB nodeb 0
 echo "Nor" > Nor.txt
 Foreach Vddbasic 1.1 
 	echo Vddbasic = $Vddbasic
-		alter Vdd = $Vddbasic
+	alter Vdd = $Vddbasic
+	foreach input 0 $Vddbasic
+		alter VinA = $input
+			foreach input 0 $Vddbasic 
+				alter Vinb = $input
+				echo DC Analysis at 25C
+		        dc TEMP 25 50 60
+				print V(node1) V(nodea) V(nodeb) V(nodez) V(node2) (-V(node1)*I(Vdd))/V(node1) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina))+(-V(nodeb)*I(Vinb)))/V(node1) >> Nor.txt
 
-foreach input 0 $Vddbasic
-	alter VinA = $input
-foreach input 0 $Vddbasic 
-		alter Vinb = $input
-			echo DC Analysis at 25C
-		           dc TEMP 25 50 60
-print V(node1) V(nodea) V(nodeb) V(nodez) V(node2) (-V(node1)*I(Vdd))/V(node1) ((-V(node1)*I(Vdd))+(-V(nodea)*I(Vina))+(-V(nodeb)*I(Vinb)))/V(node1) >> Nor.txt
-
+			end
 	end
-		end
 end
-
 .ENDC
 .END
