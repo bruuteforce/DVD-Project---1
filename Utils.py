@@ -246,7 +246,7 @@ for index, row in df_Nor.iterrows():
     drain = __round(row['v(nodez)'])
     gate = __round(row['v(nodeb)'])
     source = __round(row['v(node2)'])
-    body = __round(row['v(node2)'])
+    body = __round(row['v(node1)'])
     VI_data_P2=fetch_currents_pmos(drain,gate,source,body,2)
     #NMOS1
     drain = __round(row['v(nodez)'])

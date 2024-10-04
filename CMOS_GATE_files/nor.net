@@ -22,7 +22,7 @@
 
 ****Net-list*************
 Mp1	node2	nodea	node1 	node1 	pmos W={4*XX*Wmin} L={Lmin}	
-Mp2	nodez	nodeb	node2 	node2 	pmos W={4*XX*Wmin} L={Lmin}	
+Mp2	nodez	nodeb	node2 	node1 	pmos W={4*XX*Wmin} L={Lmin}	
 
 Mn1	nodez	nodea	0 	0 	nmos W={1*XX*Wmin} L={Lmin}	
 Mn2	nodez	nodeb	0 	0 	nmos W={1*XX*Wmin} L={Lmin}
