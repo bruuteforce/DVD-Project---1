@@ -238,7 +238,7 @@ for index, row in df_Nand.iterrows():
             update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,leakage_current)
             #update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,lk)
         case (0,1.1):
-            leakage_current=VI_data_PA['igate'].values[0]+VI_data_PA['ibody'].values[0]+VI_data_NA['isource'].values[0]
+            leakage_current=VI_data_PA['igate'].values[0]+VI_data_PA['ibody'].values[0]+VI_data_NA['isource'].values[0]+VI_data_NA['igate'].values[0]
             #lk=VI_data_PA['igate'].values[0]-VI_data_NA['idrain'].values[0]
             #lk=VI_data_PA['igate'].values[0]+VI_data_PB['idrain'].values[0]-VI_data_NB['igate'].values[0]-VI_data_NA['idrain'].values[0]
             update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,leakage_current)
