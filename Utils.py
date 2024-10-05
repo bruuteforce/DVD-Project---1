@@ -36,6 +36,21 @@ def update_estims(MOS_TYP,row,VI_data_1,VI_data_2,leakage_current):
         f.write(f"Simulated Leakage Current:{row['current']}\n")
         f.write(f"{100*abs((abs(leakage_current)-abs(row['current']))/row['current'])}\n\n")
 
+def update_estims1(MOS_TYP,row,VI_data_P1,VI_data_P2,VI_data_N1,VI_data_N2,leakage_current):
+    with open('Estimations.txt', 'a') as f:
+        f.write(f"{MOS_TYP}:\nva: {__round(row['v(nodea)'])},vb: {__round(row['v(nodeb)'])}\n")
+        f.write('P1(a):\n')
+        f.write(VI_data_P1.to_string(index=False)+'\n')
+        f.write('P2(b):\n')
+        f.write(VI_data_P2.to_string(index=False)+'\n')
+        f.write('N1(a):\n')
+        f.write(VI_data_N1.to_string(index=False)+'\n')
+        f.write('N2(b):\n')
+        f.write(VI_data_N2.to_string(index=False)+'\n')
+        f.write(f'Estimated Leakage Current:{leakage_current}\n')
+        f.write(f"Simulated Leakage Current:{row['current_total']}\n")
+        f.write(f"{100*abs((abs(leakage_current)-abs(row['current_total']))/row['current_total'])}\n\n")
+
 def fetch_currents_nmos(drain,gate,source,body,scaling=1):
     if gate>Vdd/2.0 :
         match(scaling):
@@ -196,26 +211,51 @@ for index, row in df_Nand.iterrows():
     gate = __round(row['v(nodea)'])
     source = __round(row['v(node1)'])
     body = __round(row['v(node1)'])
-    VI_data_P1=fetch_currents_pmos(drain,gate,source,body,2)
+    VI_data_PA=fetch_currents_pmos(drain,gate,source,body,2)
     #PMOS2
     drain = __round(row['v(nodez)'])
     gate = __round(row['v(nodeb)'])
     source = __round(row['v(node1)'])
     body = __round(row['v(node1)'])
-    VI_data_P2=fetch_currents_pmos(drain,gate,source,body,2)
-    #NMOS1
+    VI_data_PB=fetch_currents_pmos(drain,gate,source,body,2)
+    #NMOS1 (BOTTOM)
     drain = __round(row['v(sd2)'])
     gate = __round(row['v(nodea)'])
     source = 0
     body = 0
-    VI_data_N1=fetch_currents_nmos(drain,gate,source,body,2)
-    #NMOS2
+    VI_data_NA=fetch_currents_nmos(drain,gate,source,body,2)
+    #NMOS2 (TOP)
     drain = __round(row['v(nodez)'])
     gate = __round(row['v(nodeb)'])
     source = __round(row['v(sd2)'])
     body = 0
-    VI_data_N2=fetch_currents_nmos(drain,gate,source,body,2)
-    print(f"\nNand:(va:{__round(row['v(nodea)'])},vb:{__round(row['v(nodeb)'])})\n{VI_data_P1}\n{VI_data_P2}\n{VI_data_N1}\n{VI_data_N2}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")
+    VI_data_NB=fetch_currents_nmos(drain,gate,source,body,2)
+    print(f"\nNand:(va:{__round(row['v(nodea)'])},vb:{__round(row['v(nodeb)'])})\n{VI_data_PA}\n{VI_data_PB}\n{VI_data_NA}\n{VI_data_NB}\ncurrent_vdd:{row['current_vdd']}\ncurrent_total:{row['current_total']}")
+    match (__round(row['v(nodea)']), __round(row['v(nodeb)'])):
+        case (0,0):
+            leakage_current=VI_data_PA['igate'].values[0]+VI_data_PB['igate'].values[0]+VI_data_NB['igate'].values[0]+VI_data_NA['isource'].values[0]+VI_data_NA['ibody'].values[0]
+            #lk=VI_data_PA['igate'].values[0]+VI_data_PB['igate'].values[0]-VI_data_NB['idrain'].values[0]
+            update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,leakage_current)
+            #update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,lk)
+        case (0,1.1):
+            leakage_current=VI_data_PA['igate'].values[0]-VI_data_PA['ibody'].values[0]+VI_data_NA['isource'].values[0]
+            #lk=VI_data_PA['igate'].values[0]-VI_data_NA['idrain'].values[0]
+            #lk=VI_data_PA['igate'].values[0]+VI_data_PB['idrain'].values[0]-VI_data_NB['igate'].values[0]-VI_data_NA['idrain'].values[0]
+            update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,leakage_current)
+            #update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,lk)
+        case (1.1, 0):
+            leakage_current=VI_data_PB['igate'].values[0]-VI_data_PB['ibody'].values[0]+VI_data_NA['igate'].values[0]+VI_data_NB['igate'].values[0]+VI_data_NA['idrain'].values[0]
+            #lk=VI_data_PA['idrain'].values[0]+VI_data_PB['igate'].values[0]-VI_data_NB['idrain'].values[0]-VI_data_NA['igate'].values[0]
+            update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,leakage_current)
+            #update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,lk)
+        case (1.1, 1.1):
+            leakage_current=VI_data_PA['igate'].values[0]+VI_data_PB['igate'].values[0]+VI_data_NA['igate'].values[0]+VI_data_NB['igate'].values[0]+VI_data_PA['isource'].values[0]+VI_data_PB['isource'].values[0]
+            #lk=VI_data_PA['idrain'].values[0]+VI_data_PB['idrain'].values[0]-VI_data_NB['igate'].values[0]-VI_data_NA['igate'].values[0]
+            update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,leakage_current)
+            #update_estims1("NAND",row,VI_data_PA,VI_data_PB,VI_data_NA,VI_data_NB,lk)
+        case _:
+            print("Invalid combination")
+        
 
 df_Nor = pd.read_csv("CMOS_GATE_files\\temp\outputs\\Nor.csv")
 for index, row in df_Nor.iterrows():

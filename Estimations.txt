@@ -94,3 +94,75 @@ Estimated Leakage Current:1.7316948e-10
 Simulated Leakage Current:-1.73169e-10
 0.00027718587044606364
 
+NAND:
+va: 0.0,vb: 0.0
+P1(a):
+ vdrain  vgate  vsource  vbody        idrain        igate       isource         ibody
+    1.1    0.0      1.1    1.1 -9.150950e-11 1.979080e-10 -9.150950e-11 -1.488910e-11
+P2(b):
+ vdrain  vgate  vsource  vbody        idrain        igate       isource         ibody
+    1.1    0.0      1.1    1.1 -9.150950e-11 1.979080e-10 -9.150950e-11 -1.488910e-11
+N1(a):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    0.1    0.0      0.0    0.0 -5.502780e-11 3.633735e-14 5.489149e-11 1.000088e-13
+N2(b):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    1.1    0.0      0.1    0.0 -7.433290e-11 1.929383e-11 5.383331e-11 1.205753e-12
+Estimated Leakage Current:4.701013288e-10
+Simulated Leakage Current:4.699591e-10
+0.03026408042741472
+
+NAND:
+va: 0.0,vb: 1.1
+P1(a):
+ vdrain  vgate  vsource  vbody        idrain        igate       isource         ibody
+    1.1    0.0      1.1    1.1 -9.150950e-11 1.979080e-10 -9.150950e-11 -1.488910e-11
+P2(b):
+ vdrain  vgate  vsource  vbody       idrain         igate       isource         ibody
+    1.1    1.1      1.1    1.1 4.038968e-28 -4.440890e-16 -1.252080e-26 -5.551120e-17
+N1(a):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+   0.85    0.0      0.0    0.0 -9.258250e-10 6.707421e-12 9.182673e-10 8.500144e-13
+N2(b):
+ vdrain  vgate  vsource  vbody        idrain         igate      isource        ibody
+    1.1    1.1     0.85    0.0 -7.492220e-10 -2.442490e-14 7.472933e-10 1.953224e-12
+Estimated Leakage Current:1.1310644e-09
+Simulated Leakage Current:1.105626e-09
+2.30081419937664
+
+NAND:
+va: 1.1,vb: 0.0
+P1(a):
+ vdrain  vgate  vsource  vbody       idrain         igate       isource         ibody
+    1.1    1.1      1.1    1.1 4.038968e-28 -4.440890e-16 -1.252080e-26 -5.551120e-17
+P2(b):
+ vdrain  vgate  vsource  vbody        idrain        igate       isource         ibody
+    1.1    0.0      1.1    1.1 -9.150950e-11 1.979080e-10 -9.150950e-11 -1.488910e-11
+N1(a):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 1.956220e-11 -7.718890e-11 1.956220e-11 3.806486e-11
+N2(b):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    1.1    0.0      0.0    0.0 -2.360230e-09 1.925749e-11 2.339864e-09 1.111152e-12
+Estimated Leakage Current:1.7442789000000002e-10
+Simulated Leakage Current:2.633628e-09
+93.37689719276982
+
+NAND:
+va: 1.1,vb: 1.1
+P1(a):
+ vdrain  vgate  vsource  vbody       idrain         igate       isource         ibody
+    0.0    1.1      1.1    1.1 6.808430e-10 -8.485430e-11 -5.948860e-10 -1.102980e-12
+P2(b):
+ vdrain  vgate  vsource  vbody       idrain         igate       isource         ibody
+    0.0    1.1      1.1    1.1 6.808430e-10 -8.485430e-11 -5.948860e-10 -1.102980e-12
+N1(a):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 1.956220e-11 -7.718890e-11 1.956220e-11 3.806486e-11
+N2(b):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 1.956220e-11 -7.718890e-11 1.956220e-11 3.806486e-11
+Estimated Leakage Current:-1.5138583999999999e-09
+Simulated Leakage Current:1.51383e-09
+0.0018760362788393754
+
