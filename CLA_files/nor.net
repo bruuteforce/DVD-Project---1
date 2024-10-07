@@ -1,0 +1,29 @@
+
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+.options ABSTOL=1e-18 
+.options NUMDGT=4     PIVOT=1e-13
+.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Net-list*************
+.subckt nor_gate nodez nodea nodeb node1
+
+* PMOS Transistors
+Mp1 node2 nodea node1 node1 pmos W={4*XX*Wmin} L={Lmin} 
+Mp2 nodez nodeb node2 node1 pmos W={4*XX*Wmin} L={Lmin} 
+
+* NMOS Transistors
+Mn1 nodez nodea 0 0 nmos W={1*XX*Wmin} L={Lmin} 
+Mn2 nodez nodeb 0 0 nmos W={1*XX*Wmin} L={Lmin}
+
+.ends nor_gate
+

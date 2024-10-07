@@ -1,0 +1,21 @@
+Vdd vdd 0 1.1 ; VDD = 1.1V
+
+* Step 2: Inputs
+VinA in_A 0 PULSE(0 1.1 0n 1n 1n 10n 20n) ; Input A
+VinB in_B 0 PULSE(0 1.1 5n 1n 1n 10n 20n) ; Input B
+
+* Step 3: Instantiate the XOR gate
+XXX out in_A in_B vdd xor_gate
+
+**** Simulation Control ****
+.TRAN 1n 100n ; Transient simulation from 0 to 100ns
+
+.control
+  run
+  print V(out)
+  plot V(out)
+.endc
+
+.END
+
+

@@ -1,0 +1,33 @@
+*leakage in NAND2 Gate
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+*.options INGOLD=2     DCON=1
+*.options GSHUNT=1e-15
+*.options RMIN=1e-15
+.options ABSTOL=1e-18 
+*.options RELTOL=1e-20  
+*.options RELVDC=1e-2 
+*.options NUMDGT=4     PIVOT=1e-13
+*.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Net-list*************
+
+.subckt nand_gate nodez nodea nodeb node1
+
+Mp1	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
+Mp2	nodez	nodeb	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
+
+Mn1	SD2	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
+Mn2	nodez	nodeb	SD2	0 	nmos W={2*XX*Wmin} L={Lmin}
+
+.ends nand_gate
+

@@ -1,0 +1,27 @@
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+.options ABSTOL=1e-18 
+.options NUMDGT=4     PIVOT=1e-13
+.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Include external subcircuit files*****
+.INCLUDE "./nand.net"         ; Path to your NOR gate subcircuit
+.INCLUDE "./inverter_edited.net" ; Path to your inverter subcircuit
+
+**** AND Gate Definition ********
+.subckt and_gate output input_a input_b node1
+* Step 1: Use a NAND gate
+Xnand nandnet input_a input_b node1 nand_gate
+* Step 2: Invert the NOR gate's output
+Xinverter output nandnet node1 inverter
+.ends and_gate
+

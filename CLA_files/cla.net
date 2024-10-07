@@ -1,0 +1,110 @@
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+.options ABSTOL=1e-18 
+.options NUMDGT=4     PIVOT=1e-13
+.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Include external subcircuit files*****
+.INCLUDE "./nand.net"         ; Path to your nand gate subcircuit
+.INCLUDE "./inverter_edited.net" ; Path to your inverter subcircuit
+.INCLUDE "./orusingsubckt.net"	;
+.INCLUDE "./nor.net"         ;
+.INCLUDE "./and.net"         ;
+.INCLUDE "./nand3.net"       ;
+.INCLUDE "./nand4.net"       ;
+ 
+.subckt cla p3 p2 p1 p0 g3 g2 g1 g0 Cn P G cnz cny cnx node1
+x_in_inv1 p0_ p0 node1 inverter
+x_in_inv2 p1_ p1 node1 inverter
+x_in_inv3 p2_ p2 node1 inverter
+x_in_inv4 p3_ p3 node1 inverter
+
+xinv1 cn_ cin node1 inverter
+
+xnand1 op_nand1 p0 g0 node1 nand_gate
+xnand2 op_nand2 cn_ g0 node1 nand_gate
+xnand3 op_nand3 op_nand1 op_nand2 node1 nand_gate
+xinv2 cnx op_nand_3 node1 inverter
+
+xnand4 op_nand4 p1 g1 node1 nand_gate
+xnand5 op_nand31 p0 g0 g1 node1  nand3_gate
+xnand6 op_nand32 cn_ g0 g1 node1 nand3_gate
+xnand7 op_nand33 op_nand31 op_nand32 op_nand4 node1 nand3_gate
+xinv3 cny op_nand33 node1 inverter
+
+xnand8 op_nand5 p2 g2 node1 nand_gate
+xnand9 op_nand34 p1 g1 g2 node1  nand3_gate
+xnand10 op_nand41 cn_ g0 g1 g2 node1 nand4_gate
+xnand11 op_nand42 p0 g0 g1 g2 node1 nand4_gate
+xnand12 op_nand43 op_nand34 op_nand41 op_nand42 op_nand5 node1 nand4_gate
+xinv4 cnz op_nand43 node1 inverter
+
+xnand13 op_nand6 p3 g3 node1 nand_gate
+xnand14 op_nand35 p2 g3 g2 node1  nand3_gate
+xnand16 op_nand44 p1 g3 g1 g2 node1 nand4_gate
+xnand17 op_nand45 g3 g2 g1 g0 node1 nand4_gate
+xnand18 G op_nand45 op_nand44 op_nand35 op_nand6 node1 nand4_gate
+
+
+xnand19 P p0_ p1_ p2_ p3_ node1 nand4_gate
+
+.ends cla 
+
+**** Main Circuit for CLA ****
+* Power supply for the gates
+Vdd node1 0 1.1V
+
+* Define Inputs for CLA
+*Vin_p3 p3 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_p2 p2 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_p1 p1 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_p0 p0 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_g3 g3 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_g2 g2 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_g1 g1 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_g0 g0 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
+*Vin_cn cin 0 1.1
+
+* Instantiate CLA Subcircuit
+Xcla p3 p2 p1 p0 g3 g2 g1 g0 cin P G cnz cny cnx node1 cla
+
+**** Simulation Control ****
+*.TRAN 1n 1000
+*.control
+*  run
+*  print V(P) V(G) V(cnz) V(cny) V(cnx) ; Replace with relevant output nodes
+*  plot V(P) V(G) V(cnz) V(cny) V(cnx)
+*.endc
+
+Vin_p3 p3 0 1.1
+Vin_p2 p2 0 1.1
+Vin_p1 p1 0 1.1
+Vin_p0 p0 0 1.1
+Vin_g3 g3 0 1.1
+Vin_g2 g2 0 1.1
+Vin_g1 g1 0 1.1
+Vin_g0 g0 0 1.1
+Vin_cn cin 0 1.1
+
+.TEMP 25
+.CONTROL
+dc TEMP 25 90 70
+print V(P) V(G) V(cnz) V(cny) V(cnx) ((-V(node1)*I(Vdd))+(-V(p3)*I(Vin_p3))+(-V(p2)*I(Vin_p2))+(-V(p1)*I(Vin_p1))+(-V(p0)*I(Vin_p0))+(-V(g3)*I(Vin_g3))+(-V(g2)*I(Vin_g2))+(-V(g1)*I(Vin_g1))+(-V(g0)*I(Vin_g0))+(-V(cin)*I(Vin_cn)))/V(node1) 
+echo "INV:x_in_inv1:"; print  V(p0)
+echo "INV:x_in_inv2:"; print  V(p1)
+echo "INV:x_in_inv3:"; print  V(p2)
+echo "INV:x_in_inv4:"; print  V(p3)
+echo "INV:xinv1:"; print V(cin)
+
+.ENDC
+.END
+

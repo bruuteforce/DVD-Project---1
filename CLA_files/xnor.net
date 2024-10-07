@@ -1,0 +1,32 @@
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+.options ABSTOL=1e-18 
+.options NUMDGT=4     PIVOT=1e-13
+.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Include external subcircuit files*****
+.INCLUDE "./nor.net"         ; Path to your nor gate subcircuit
+.INCLUDE "./inverter_edited.net" ; Path to your inverter subcircuit
+
+**** xnor Gate Definition ********
+.subckt xnor_gate output input_a input_b node1
+* Step 1: Use a nor gate
+Xnor1 nor_op1 input_a input_b node1 nor_gate
+Xnor2 nor_op2 input_a nor_op1 node1 nor_gate
+Xnor3 nor_op3 input_b nor_op1 node1 nor_gate
+Xnor4 output nor_op3 nor_op2 node1 nor_gate
+
+.ends xnor_gate
+
+
+
+

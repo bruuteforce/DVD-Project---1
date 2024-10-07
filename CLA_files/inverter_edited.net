@@ -1,0 +1,28 @@
+
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+.options ABSTOL=1e-18 
+.options NUMDGT=4     PIVOT=1e-13
+.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+
+.subckt inverter nodez nodea node1
+	
+Mp1	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
+
+Mn1	nodez	nodea	0 	0 	nmos W={1*XX*Wmin} L={Lmin}	
+
+.ends inverter
+
+.END
+
+

@@ -1,0 +1,29 @@
+.INCLUDE 45nm_HP.pm
+
+*****OPTIONS*******************************************
+.OPTIONS GMIN=1e-20 
+.option POST
+.options AUTOSTOP=NO
+.options ABSTOL=1e-18 
+.options NUMDGT=4     PIVOT=1e-13
+.option MEASDGT=6
+
+****Parameters**********
+.PARAM Lmin=45n
+.PARAM Wmin=45n
+.PARAM XX=1
+
+****Include external subcircuit files*****
+.INCLUDE "./nand.net"         ; Path to your nand gate subcircuit
+.INCLUDE "./inverter_edited.net" ; Path to your inverter subcircuit
+
+**** XOR Gate Definition ********
+.subckt xor_gate output input_a input_b node1
+* Step 1: Use a nand gate
+Xnand1 nand_op1 input_a input_b node1 nand_gate
+Xnand2 nand_op2 input_a nand_op1 node1 nand_gate
+Xnand3 nand_op3 input_b nand_op1 node1 nand_gate
+Xnand4 output nand_op3 nand_op2 node1 nand_gate
+
+.ends xor_gate
+

@@ -1,3 +1,51 @@
+NMOS stack:
+vsd1: 0.0, vgen: 0.0,va: 1.1,vb: 1.1
+M1(Bottom):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 8.558463e-12 -3.377120e-11 8.558463e-12 1.665338e-11
+M2(Top):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 8.558463e-12 -3.377120e-11 8.558463e-12 1.665338e-11
+Estimated Leakage Current:-6.75424e-11
+Simulated Leakage Current:-6.75424e-11
+0.0
+
+NMOS stack:
+vsd1: 0.1, vgen: 1.1,va: 0.0,vb: 0.0
+M1(Bottom):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    0.1    0.0      0.0    0.0 -2.410440e-11 1.589759e-14 2.398851e-11 1.000051e-13
+M2(Top):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    1.1    0.0      0.1    0.0 -3.311810e-11 8.441050e-12 2.347422e-11 1.202877e-12
+Estimated Leakage Current:-3.31181e-11
+Simulated Leakage Current:-3.24038e-11
+2.2043710922792927
+
+NMOS stack:
+vsd1: 0.85, vgen: 1.1,va: 0.0,vb: 1.1
+M1(Bottom):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+   0.85    0.0      0.0    0.0 -4.051590e-10 2.934497e-12 4.013743e-10 8.500075e-13
+M2(Top):
+ vdrain  vgate  vsource  vbody        idrain         igate      isource        ibody
+    1.1    1.1     0.85    0.0 -3.281790e-10 -9.769960e-15 3.262382e-10 1.951413e-12
+Estimated Leakage Current:-4.0516876996000004e-10
+Simulated Leakage Current:-3.96767e-10
+2.117557649703742
+
+NMOS stack:
+vsd1: 0.0, vgen: 1.1,va: 1.1,vb: 0.0
+M1(Bottom):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 8.558463e-12 -3.377120e-11 8.558463e-12 1.665338e-11
+M2(Top):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    1.1    0.0      0.0    0.0 -1.032240e-09 8.425152e-12 1.022708e-09 1.105246e-12
+Estimated Leakage Current:-1.0660111999999999e-09
+Simulated Leakage Current:-1.0647e-09
+0.1231520616135844
+
 PMOS stack:
 vsd1: 0.25, vgen: 1.1,va: 0.0,vb: 1.1
 M1(Bottom):
