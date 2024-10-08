@@ -23,11 +23,11 @@
 
 .subckt nand_gate nodez nodea nodeb node1
 
-Mp1	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
-Mp2	nodez	nodeb	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
+MpA	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
+MpB	nodez	nodeb	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
 
-Mn1	SD2	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
-Mn2	nodez	nodeb	SD2	0 	nmos W={2*XX*Wmin} L={Lmin}
+MnA	SD2	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
+MnB	nodez	nodeb	SD2	0 	nmos W={2*XX*Wmin} L={Lmin}
 
 .ends nand_gate
 
