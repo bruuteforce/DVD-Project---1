@@ -24,7 +24,7 @@ Xnand41 nand_op1 input_a input_b node1 nand_gate
 Xnand42 inv_op1 nand_op1 node1 inverter
 Xnand43 nand_op2 input_c input_d node1 nand_gate
 Xnand44 inv_op2 nand_op2 node1 inverter
-Xnand45 output nand_op1 nand_op2 node1 nand_gate
+Xnand45 output inv_op1 inv_op2 node1 nand_gate
 
 .ends nand4_gate
 
