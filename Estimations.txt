@@ -94,6 +94,30 @@ Estimated Leakage Current:1.7316948e-10
 Simulated Leakage Current:-1.73169e-10
 0.00027718587044606364
 
+INVERTER:
+va: 0.0
+P1(a):
+ vdrain  vgate  vsource  vbody        idrain        igate       isource         ibody
+    1.1    0.0      1.1    1.1 -9.150950e-11 1.979080e-10 -9.150950e-11 -1.488910e-11
+N1(a):
+ vdrain  vgate  vsource  vbody        idrain        igate      isource        ibody
+    1.1    0.0      0.0    0.0 -1.032240e-09 8.425152e-12 1.022708e-09 1.105246e-12
+Estimated Leakage Current:1.229041152e-09
+Simulated Leakage Current:1.229032e-09
+0.0007446510749847406
+
+INVERTER:
+va: 1.1
+P1(a):
+ vdrain  vgate  vsource  vbody       idrain         igate       isource         ibody
+    0.0    1.1      1.1    1.1 6.808430e-10 -8.485430e-11 -5.948860e-10 -1.102980e-12
+N1(a):
+ vdrain  vgate  vsource  vbody       idrain         igate      isource        ibody
+    0.0    1.1      0.0    0.0 8.558463e-12 -3.377120e-11 8.558463e-12 1.665338e-11
+Estimated Leakage Current:-7.135114999999999e-10
+Simulated Leakage Current:7.135106e-10
+0.00012613687867752825
+
 NAND:
 va: 0.0,vb: 0.0
 P1(a):

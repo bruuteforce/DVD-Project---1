@@ -26,7 +26,7 @@
 MpA	nodez	nodea	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
 MpB	nodez	nodeb	node1 	node1 	pmos W={2*XX*Wmin} L={Lmin}	
 
-MnA	SD2	nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
+MnA	SD2	    nodea	0 	0 	nmos W={2*XX*Wmin} L={Lmin}	
 MnB	nodez	nodeb	SD2	0 	nmos W={2*XX*Wmin} L={Lmin}
 
 .ends nand_gate

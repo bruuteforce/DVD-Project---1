@@ -63,27 +63,9 @@ xnand19 P_ p0 p1 p2 p3 node1 nand4_gate
 * Power supply for the gates
 Vdd node1 0 1.1V
 
-* Define Inputs for CLA
-*Vin_p3 p3 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_p2 p2 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_p1 p1 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_p0 p0 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_g3 g3 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_g2 g2 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_g1 g1 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_g0 g0 0 PULSE(0 1.1 0n 1n 1n 50n 100n)
-*Vin_cn cin 0 1.1
-
 * Instantiate CLA Subcircuit
 Xcla p3_ p2_ p1_ p0_ g3_ g2_ g1_ g0_ cin P_ G_ cnz cny cnx node1 cla
 
-**** Simulation Control ****
-*.TRAN 1n 1000
-*.control
-*  run
-*  print V(P) V(G) V(cnz) V(cny) V(cnx) ; Replace with relevant output nodes
-*  plot V(P) V(G) V(cnz) V(cny) V(cnx)
-*.endc
 
 Vin_p3_ p3_ 0 1.1
 Vin_p2_ p2_ 0 1.1
@@ -97,16 +79,106 @@ Vin_cn cin 0 1.1
 
 .TEMP 25
 .CONTROL
-op
-display
+*op
+*display
 dc TEMP 25 90 70
-print V(P_) V(G_) V(cnz) V(cny) V(cnx) ((-V(node1)*I(Vdd))+(-V(p3_)*I(Vin_p3_))+(-V(p2_)*I(Vin_p2_))+(-V(p1_)*I(Vin_p1_))+(-V(p0_)*I(Vin_p0_))+(-V(g3_)*I(Vin_g3_))+(-V(g2_)*I(Vin_g2_))+(-V(g1_)*I(Vin_g1_))+(-V(g0_)*I(Vin_g0_))+(-V(cin)*I(Vin_cn)))/V(node1) 
-echo "INV:x_in_inv1:"; print  V(p0_)
-echo "INV:x_in_inv2:"; print  V(p1_)
-echo "INV:x_in_inv3:"; print  V(p2_)
-echo "INV:x_in_inv4:"; print  V(p3_)
-echo "INV:xinv1:"; print V(cin)
 
+print V(P_) V(G_) V(cnz) V(cny) V(cnx) ((-V(node1)*I(Vdd))+(-V(p3_)*I(Vin_p3_))+(-V(p2_)*I(Vin_p2_))+(-V(p1_)*I(Vin_p1_))+(-V(p0_)*I(Vin_p0_))+(-V(g3_)*I(Vin_g3_))+(-V(g2_)*I(Vin_g2_))+(-V(g1_)*I(Vin_g1_))+(-V(g0_)*I(Vin_g0_))+(-V(cin)*I(Vin_cn)))/V(node1) 
+echo "Gates+Inputs:" > GatesAndInputs.txt
+*echo "INV:x_in_inv1:"; print  V(p0_)
+print V(m.xcla.x_in_inv1.mn1#gate) >> GatesAndInputs.txt
+*echo "INV:x_in_inv2:"; print  V(p1_)
+print V(m.xcla.x_in_inv2.mn1#gate) >> GatesAndInputs.txt
+*echo "INV:x_in_inv3:"; print  V(p2_)
+print V(m.xcla.x_in_inv3.mn1#gate) >> GatesAndInputs.txt
+*echo "INV:x_in_inv4:"; print  V(p3_)
+print V(m.xcla.x_in_inv4.mn1#gate) >> GatesAndInputs.txt
+*echo "INV:xinv1"; print  V(m.xcla.xinv1.mn1#gate)
+print V(m.xcla.xinv1.mn1#gate) >> GatesAndInputs.txt
+
+*echo "NAND2:xnand1:"; print V(p0) V(g0)
+print V(m.xcla.xnand1.mna#gate) V(m.xcla.xnand1.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND2:xnand2:"; print V(cn_) V(g0)
+print V(m.xcla.xnand2.mna#gate) V(m.xcla.xnand2.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND2:xnand3:"; print V(op_nand1) V(op_nand2)
+print V(m.xcla.xnand3.mna#gate) V(m.xcla.xnand3.mnb#gate) >> GatesAndInputs.txt
+*echo "INV:xinv2:"   ; print V(op_nand_3)
+print V(m.xcla.xinv2.mn1#gate) >> GatesAndInputs.txt
+
+*echo "NAND2:xnand4:"; print V(p1) V(g1)
+print V(m.xcla.xnand4.mna#gate) V(m.xcla.xnand4.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND3:xnand5:"; print V(p0) V(g0) V(g1)
+print V(m.xcla.xnand5.xnand31.mna#gate) V(m.xcla.xnand5.xnand31.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand5.xinv32.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand5.xnand33.mna#gate) V(m.xcla.xnand5.xnand33.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND3:xnand6:"; print V(cn_) V(g0) V(g1)
+print V(m.xcla.xnand6.xnand31.mna#gate) V(m.xcla.xnand6.xnand31.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand6.xinv32.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand6.xnand33.mna#gate) V(m.xcla.xnand6.xnand33.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND3:xnand7:"; print V(op_nand31) V(op_nand32) V(op_nand4)
+print V(m.xcla.xnand7.xnand31.mna#gate) V(m.xcla.xnand7.xnand31.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand7.xinv32.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand7.xnand33.mna#gate) V(m.xcla.xnand7.xnand33.mnb#gate) >> GatesAndInputs.txt
+*echo "INV:xinv3:"   ; print V(op_nand33)
+print V(m.xcla.xinv3.mn1#gate) >> GatesAndInputs.txt
+
+*echo "NAND2:xnand8:" ; print V(p2) V(g2) 
+print V(m.xcla.xnand8.mna#gate) V(m.xcla.xnand8.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND3:xnand9:" ; print V(p1) V(g1) V(g2)
+print V(m.xcla.xnand9.xnand31.mna#gate) V(m.xcla.xnand9.xnand31.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand9.xinv32.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand9.xnand33.mna#gate) V(m.xcla.xnand9.xnand33.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND4:xnand10:"; print V(cn_) V(g0) V(g1) V(g2)
+print V(m.xcla.xnand10.xnand41.mna#gate) V(m.xcla.xnand10.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand10.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand10.xnand43.mna#gate) V(m.xcla.xnand10.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand10.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand10.xnand45.mna#gate) V(m.xcla.xnand10.xnand45.mnb#gate) >> GatesAndInputs.txt
+
+*echo "NAND4:xnand11:"; print V(p0) V(g0) V(g1) V(g2)
+print V(m.xcla.xnand11.xnand41.mna#gate) V(m.xcla.xnand11.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand11.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand11.xnand43.mna#gate) V(m.xcla.xnand11.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand11.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand11.xnand45.mna#gate) V(m.xcla.xnand11.xnand45.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND4:xnand12:"; print V(op_nand34) V(op_nand41) V(op_nand42) V(op_nand5)
+print V(m.xcla.xnand12.xnand41.mna#gate) V(m.xcla.xnand12.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand12.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand12.xnand43.mna#gate) V(m.xcla.xnand12.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand12.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand12.xnand45.mna#gate) V(m.xcla.xnand12.xnand45.mnb#gate) >> GatesAndInputs.txt
+*echo "INV:xinv4:"    ; print V(op_nand43)
+print V(m.xcla.xinv4.mn1#gate) >> GatesAndInputs.txt
+*echo "NAND2:xnand13:"; print V(p3) V(g3)
+print V(m.xcla.xnand13.mna#gate) V(m.xcla.xnand13.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND3:xnand14:"; print V(p2) V(g3) V(g2)
+print V(m.xcla.xnand14.xnand31.mna#gate) V(m.xcla.xnand14.xnand31.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand14.xinv32.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand14.xnand33.mna#gate) V(m.xcla.xnand14.xnand33.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND4:xnand16:"; print V(p1) V(g3) V(g1) V(g2)
+print V(m.xcla.xnand16.xnand41.mna#gate) V(m.xcla.xnand16.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand16.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand16.xnand43.mna#gate) V(m.xcla.xnand16.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand16.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand16.xnand45.mna#gate) V(m.xcla.xnand16.xnand45.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND4:xnand17:"; print V(g3) V(g2) V(g1) V(g0)
+print V(m.xcla.xnand17.xnand41.mna#gate) V(m.xcla.xnand17.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand17.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand17.xnand43.mna#gate) V(m.xcla.xnand17.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand17.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand17.xnand45.mna#gate) V(m.xcla.xnand17.xnand45.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND4:xnand18:"; print V(op_nand45) V(op_nand44) V(op_nand35) V(op_nand6) 
+print V(m.xcla.xnand18.xnand41.mna#gate) V(m.xcla.xnand18.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand18.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand18.xnand43.mna#gate) V(m.xcla.xnand18.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand18.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand18.xnand45.mna#gate) V(m.xcla.xnand18.xnand45.mnb#gate) >> GatesAndInputs.txt
+*echo "NAND4:xnand19:"; print V(p0_) V(p1_) V(p2_) V(p3_) 
+print V(m.xcla.xnand19.xnand41.mna#gate) V(m.xcla.xnand19.xnand41.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand19.xinv42.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand19.xnand43.mna#gate) V(m.xcla.xnand19.xnand43.mnb#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand19.xinv44.mn1#gate) >> GatesAndInputs.txt
+print V(m.xcla.xnand19.xnand45.mna#gate) V(m.xcla.xnand19.xnand45.mnb#gate) >> GatesAndInputs.txt
 
 .ENDC
 .END

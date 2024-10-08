@@ -21,7 +21,7 @@
 .subckt nand3_gate output input_a input_b input_c node1
 * Step 1: Use a nand gate
 Xnand31 nand_op1 input_a input_b node1 nand_gate
-Xnand32 inv_op nand_op1 node1 inverter
+Xinv32 inv_op nand_op1 node1 inverter
 Xnand33 output input_c inv_op node1 nand_gate
 
 .ends nand3_gate
