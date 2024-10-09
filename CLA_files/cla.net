@@ -79,11 +79,12 @@ Vin_cn cin 0 1.1
 
 .TEMP 25
 .CONTROL
+echo "CLA:" > CLA.txt
 *op
 *display
 dc TEMP 25 90 70
 
-print V(P_) V(G_) V(cnz) V(cny) V(cnx) ((-V(node1)*I(Vdd))+(-V(p3_)*I(Vin_p3_))+(-V(p2_)*I(Vin_p2_))+(-V(p1_)*I(Vin_p1_))+(-V(p0_)*I(Vin_p0_))+(-V(g3_)*I(Vin_g3_))+(-V(g2_)*I(Vin_g2_))+(-V(g1_)*I(Vin_g1_))+(-V(g0_)*I(Vin_g0_))+(-V(cin)*I(Vin_cn)))/V(node1) 
+print V(P_) V(G_) V(cnz) V(cny) V(cnx) ((-V(node1)*I(Vdd))+(-V(p3_)*I(Vin_p3_))+(-V(p2_)*I(Vin_p2_))+(-V(p1_)*I(Vin_p1_))+(-V(p0_)*I(Vin_p0_))+(-V(g3_)*I(Vin_g3_))+(-V(g2_)*I(Vin_g2_))+(-V(g1_)*I(Vin_g1_))+(-V(g0_)*I(Vin_g0_))+(-V(cin)*I(Vin_cn)))/V(node1) >> CLA.txt
 echo "Gates+Inputs:" > GatesAndInputs.txt
 *echo "INV:x_in_inv1:"; print  V(p0_)
 print V(m.xcla.x_in_inv1.mn1#gate) >> GatesAndInputs.txt

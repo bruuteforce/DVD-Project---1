@@ -1,63 +1,9 @@
 import pandas as pd
+import os
+from ODO_MOS import parse_file_gates
 
-#df_Nand_csv = pd.read_csv("CMOS_GATE_files\\temp\outputs\\Nand.csv")
-df_Nand_csv = pd.read_csv("Nand_altered.csv")
-#df_Inverter_csv = pd.read_csv("CMOS_GATE_files\\temp\outputs\Inverter.csv")
-df_Inverter_csv = pd.read_csv("Inverter_altered.csv")
-
-def __round(value):
-    return round(value*40)/40
-
-def parse_file(filename):
-    try:
-        check=0
-        df = pd.DataFrame()
-        prev=None; prev_val=0
-        with open(filename, 'r') as file:
-            for line in file:
-                line = line.strip()
-                if '=' in line:
-                    variable, value = line.split('=')
-                    variable = variable.strip()
-                    value = value.strip()
-                
-                    print(f"{variable}:{value}")
-                    
-                    parts = variable.split('.')
-                    substring = parts[-2]
-                    
-                    if "inv" in substring:
-                        print(f"Inverter:{float(value)},{value}")
-                        simul_leakage=df_Inverter_csv[df_Inverter_csv['v(nodea)']==__round(float(value))]['current_total'].values[0]
-                        estim_leakage=df_Inverter_csv[df_Inverter_csv['v(nodea)']==__round(float(value))]['estimated_leakage'].values[0]
-                        row = {"GATE":"INVERTER","simulated_leakage":simul_leakage,"estimated_leakage":estim_leakage,"INPUT1":value}
-                        df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
-
-                    if "nand" in substring:
-                        print ("Nand")
-                        curr = '.'.join(parts[:-1])
-                        if (check == 1):
-                            if (prev != curr):
-                                print (f"recheck the file! {prev}!={curr}")
-                                exit(0)
-                            else:
-                                if "mnb" in parts[-1]:
-                                    check = 0
-                                    simul_leakage=df_Nand_csv[(df_Nand_csv['v(nodea)']==__round(float(prev_val))) & (df_Nand_csv['v(nodeb)']==__round(float(value)))]['current_total'].values[0]
-                                    estim_leakage=df_Nand_csv[(df_Nand_csv['v(nodea)']==__round(float(prev_val))) & (df_Nand_csv['v(nodeb)']==__round(float(value)))]['estimated_leakage'].values[0]
-                                    row = {"GATE":"NAND","simulated_leakage":simul_leakage,"estimated_leakage":estim_leakage,"INPUT1":prev_val,"INPUT2":value}
-                                    df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
-
-                        elif (check == 0):
-                            if "mna" in parts[-1]:
-                                check = 1
-                                prev=curr
-                                prev_val=value
-        df.to_csv("Gates+Leakages.csv",index=False)
-    except FileNotFoundError:
-        print(f"File '{filename}' not found.")
-
-parse_file("E:\DVD\project_1\DVD-Project---1\GatesAndInputs.txt")
+os.system(f"ngspice_con -b CLA_files\cla.net")
+parse_file_gates("GatesAndInputs.txt")
 
 df_cla_gates=pd.read_csv("Gates+Leakages.csv")
 estimation=0
