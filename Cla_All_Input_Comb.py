@@ -51,7 +51,7 @@ if not os.path.exists('CLA_files\\temp'):
 
     source_file = 'CLA_files\\cla.net'
     
-
+    avg_err=0;cnt=0
     variables = ['p3_', 'p2_', 'p1_', 'p0_', 'g3_', 'g2_', 'g1_', 'g0_', 'cin']
     combinations = list(itertools.product([0, 1], repeat=len(variables)))
     CLA_input_comb_csv = pd.DataFrame()
@@ -93,5 +93,12 @@ if not os.path.exists('CLA_files\\temp'):
                 f"% Err":100*abs(df['leakage_current'].values[0]-estimation)/df['leakage_current'].values[0]
             }
         CLA_input_comb_csv = pd.concat([CLA_input_comb_csv, pd.DataFrame([row])], ignore_index=True)
+        avg_err+=100*abs(df['leakage_current'].values[0]-estimation)/df['leakage_current'].values[0]
+        cnt+=1
 
+    avg_err=avg_err/cnt
     CLA_input_comb_csv.to_csv("CLA_ALL_INPUT_COMB.csv",index=False)
+    print(f"average error %:{avg_err}")
+    with open('AVERAGE_ERROR_%.txt', 'w') as file_avg:
+        file_avg.write(f"{avg_err}")
+
