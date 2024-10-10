@@ -1,0 +1,7 @@
+CLA:
+v(p_) = 1.099999e+00
+v(g_) = 1.099999e+00
+v(cnz) = 3.635067e-06
+v(cny) = 3.635067e-06
+v(cnx) = 3.635416e-06
+((-v(node1)*i(vdd))+(-v(p3_)*i(vin_p3_))+(-v(p2_)*i(vin_p2_))+(-v(p1_)*i(vin_p1_))+(-v(p0_)*i(vin_p0_))+(-v(g3_)*i(vin_g3_))+(-v(g2_)*i(vin_g2_))+(-v(g1_)*i(vin_g1_))+(-v(g0_)*i(vin_g0_))+(-v(cin)*i(vin_cn)))/v(node1) = 6.930379e-08

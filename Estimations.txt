@@ -150,9 +150,9 @@ N1(a):
 N2(b):
  vdrain  vgate  vsource  vbody        idrain         igate      isource        ibody
     1.1    1.1     0.85    0.0 -7.492220e-10 -2.442490e-14 7.472933e-10 1.953224e-12
-Estimated Leakage Current:1.1079936210000002e-09
+Estimated Leakage Current:-1.108844e-09
 Simulated Leakage Current:1.105626e-09
-0.21414302847438094
+0.2910568311526588
 
 NAND:
 va: 1.1,vb: 0.0
